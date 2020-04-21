@@ -1,21 +1,55 @@
 import React, { Component } from 'react';
-import Rect from './Rect';
+//import Rect from './Rect';
 import './App.css';
 
+let theme = {
+  light:{
+    backgroundColor:"#eef",
+    color:'#006',
+    padding:'10px',
+  },
+  dark:{
+    backgroundColor:"#006",
+    color:'#eef',
+    padding:'10px',
+  }  
+}
+
+const ThemeContext = React.createContext(theme.dark);
+
 class App extends Component {
-  constructor(props){
-    super();
-    this.title = props.title;
-    this.message = props.message;
-  }
+  static contextType = ThemeContext;
+
   render(){
-    return <div>
-      <h1>{this.title}</h1>
-      <p>{this.message}</p>
-      <Rect x="50" y="50" w="150" h="150" c="#6ff9" r="50" />            
-      <Rect x="150" y="100" w="150" h="150" c="#f6f9" r="75" />            
-      <Rect x="100" y="150" w="150" h="150" c="#6669" r="25" />           
+    return <div style={this.context}>
+      <Title value="Context page" />
+      <Message value="This is Context sample." />
+      <Message value="※これはテーマのサンプルです。" />
     </div>;
+  }
+}
+
+class Title extends Component {
+  static contextType = ThemeContext;
+
+  render(){
+    return (
+      <div>
+        <h2 style={this.context}>{this.props.value}</h2>
+      </div>
+    )
+  }
+}
+
+class Message extends Component {
+  static contextType = ThemeContext;
+
+  render() {
+    return (
+      <div>
+        <p style={this.context}>{this.props.value}</p>
+      </div>
+    )
   }
 }
 
